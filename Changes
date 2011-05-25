@@ -1,0 +1,15 @@
+Revision history for MooseX-AbstractFactory
+
+0.3    Thu Oct 16 09:18:13 2008
+       - Refactor to use sugar and metaclass.
+       - Eradicate MooseX::AbstractFactory::Implementation role 
+
+0.2    Fri Dec 28 20:55:01 2007
+       - Use Module::Install, fix a few inconsistencies.
+       - Change how _roles() is handled.
+       - change args to create()
+       - (sometime later) upload to Moose repo
+
+0.1    Sun Dec 16 20:46:19 2007
+       - Initial release to private SVN.
+
