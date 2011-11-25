@@ -3,8 +3,7 @@ package MooseX::AbstractFactory::Role;
 use Moose::Autobox;
 use Moose::Role;
 
-our $VERSION = '0.3.2';
-$VERSION = eval $VERSION;
+# VERSION
 our $AUTHORITY = 'cpan:PENFOLD';
 
 has _options        => (is => 'ro', isa => 'HashRef');
