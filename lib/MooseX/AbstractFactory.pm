@@ -5,8 +5,8 @@ use Moose::Exporter;
 use MooseX::AbstractFactory::Role;
 use MooseX::AbstractFactory::Meta::Class;
 
-our $VERSION = '0.3.2';
-$VERSION = eval $VERSION;
+# VERSION
+
 our $AUTHORITY = 'cpan:PENFOLD';
 
 # syntactic sugar for various tricks
@@ -44,12 +44,8 @@ sub init_meta {
 }
 
 1;    # Magic true value required at end of module
-__END__
 
-=head1 NAME
-
-MooseX::AbstractFactory - AbstractFactory behaviour as a Moose extension
-
+#ABSTRACT: AbstractFactory behaviour as a Moose extension
 
 =head1 SYNOPSIS
 
@@ -93,9 +89,7 @@ MooseX::AbstractFactory - AbstractFactory behaviour as a Moose extension
 Implements an AbstractFactory as a Moose extension 
 
 
-=head1 SUBROUTINES/METHODS 
-
-=head2 create()
+=method create()
 
 Returns an instance of the requested implementation.
 
@@ -106,11 +100,11 @@ Returns an instance of the requested implementation.
 		{ connection => 'Type1' },
 	);
 	
-=head2 implementation_does
+=mehtod implementation_does
 
 Syntactic sugar to define a list of roles each implementation must consume.
 
-=head2 implementation_class_via
+=method implementation_class_via
 
 Syntactic sugar to provide a sub to generate the implementation class name:
 e.g.:
@@ -143,60 +137,14 @@ The implementation passed to the factory class mapped to a class that doesn't ex
 
 =back
 
-=head1 CONFIGURATION AND ENVIRONMENT
- 
-MooseX::AbstractFactory requires no configuration files or environment variables.
-
-
-=head1 DEPENDENCIES
-
-Moose.
-
-
-=head1 INCOMPATIBILITIES
-
-None reported.
-
-
 =head1 BUGS AND LIMITATIONS
 
 No bugs have been reported. Yet.
 
 Please report any bugs or feature requests to C<mike@altrion.org>, or via RT.
 
+=head1 ACKNOWLEDGEMENTS
 
-=head1 AUTHOR
+Thanks to Dave Rolsky for the suggestions for syntactic sugar.
 
-Mike Whitaker  C<< <mike@altrion.org> >>
-
-With thanks to Dave Rolsky for the suggestions for syntactic sugar.
-
-=head1 LICENSE AND COPYRIGHT
-
-Copyright (c) 2007-8, Mike Whitaker C<< <mike@altrion.org> >>.
-
-This module is free software; you can redistribute it and/or
-modify it under the same terms as Perl itself. See L<perlartistic>.
-
-=head1 DISCLAIMER OF WARRANTY
-
-BECAUSE THIS SOFTWARE IS LICENSED FREE OF CHARGE, THERE IS NO WARRANTY
-FOR THE SOFTWARE, TO THE EXTENT PERMITTED BY APPLICABLE LAW. EXCEPT WHEN
-OTHERWISE STATED IN WRITING THE COPYRIGHT HOLDERS AND/OR OTHER PARTIES
-PROVIDE THE SOFTWARE "AS IS" WITHOUT WARRANTY OF ANY KIND, EITHER
-EXPRESSED OR IMPLIED, INCLUDING, BUT NOT LIMITED TO, THE IMPLIED
-WARRANTIES OF MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE. THE
-ENTIRE RISK AS TO THE QUALITY AND PERFORMANCE OF THE SOFTWARE IS WITH
-YOU. SHOULD THE SOFTWARE PROVE DEFECTIVE, YOU ASSUME THE COST OF ALL
-NECESSARY SERVICING, REPAIR, OR CORRECTION.
-
-IN NO EVENT UNLESS REQUIRED BY APPLICABLE LAW OR AGREED TO IN WRITING
-WILL ANY COPYRIGHT HOLDER, OR ANY OTHER PARTY WHO MAY MODIFY AND/OR
-REDISTRIBUTE THE SOFTWARE AS PERMITTED BY THE ABOVE LICENCE, BE
-LIABLE TO YOU FOR DAMAGES, INCLUDING ANY GENERAL, SPECIAL, INCIDENTAL,
-OR CONSEQUENTIAL DAMAGES ARISING OUT OF THE USE OR INABILITY TO USE
-THE SOFTWARE (INCLUDING BUT NOT LIMITED TO LOSS OF DATA OR DATA BEING
-RENDERED INACCURATE OR LOSSES SUSTAINED BY YOU OR THIRD PARTIES OR A
-FAILURE OF THE SOFTWARE TO OPERATE WITH ANY OTHER SOFTWARE), EVEN IF
-SUCH HOLDER OR OTHER PARTY HAS BEEN ADVISED OF THE POSSIBILITY OF
-SUCH DAMAGES.
+=cut
