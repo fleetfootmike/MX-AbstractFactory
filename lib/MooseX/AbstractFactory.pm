@@ -143,7 +143,7 @@ No bugs have been reported. Yet.
 
 Please report any bugs or feature requests to C<mike@altrion.org>, or via RT.
 
-=head1 ACKNOWLEDGEMENTS
+=head1 ACKNOWLEDGMENTS
 
 Thanks to Dave Rolsky for the suggestions for syntactic sugar.
 
