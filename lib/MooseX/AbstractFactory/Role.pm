@@ -110,7 +110,7 @@ Returns an instance of the requested implementation.
 Checks that the implementation class exists (via Class::MOP->load_class() ) 
 to be used, and (optionally) that it provides the methods defined in _roles().
 
-This can be overriden by a factory class definition if required: for example
+This can be overridden by a factory class definition if required: for example
 
 	sub _validate_implementation_class {
 		my $self = shift;
