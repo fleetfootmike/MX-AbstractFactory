@@ -2,6 +2,7 @@ package MooseX::AbstractFactory::Role;
 
 use Moose::Autobox;
 use Moose::Role;
+use Class::Load qw( try_load_class );
 
 # VERSION
 our $AUTHORITY = 'cpan:PENFOLD';
@@ -18,6 +19,7 @@ sub create {
 
     if (defined $impl) {
         my $iclass = $factory->_get_implementation_class($i);
+
         # pull in our implementation class
         $factory->_validate_implementation_class($iclass);
 
@@ -51,7 +53,8 @@ sub _validate_implementation_class {
 
     eval {
         # can we load the class?
-        Class::MOP->load_class($iclass);    # may die if user really stuffed up _get_implementation_class()
+        try_load_class($iclass)    # may die if user really stuffed up _get_implementation_class()
+            or confess 'cannot load: ' . $iclass;
 
         if ($self->meta->has_implementation_roles) {
             my $roles = $self->meta->implementation_roles();
