@@ -2,7 +2,7 @@ package MooseX::AbstractFactory::Role;
 
 use Moose::Autobox;
 use Moose::Role;
-use Class::Load qw( try_load_class );
+use Class::Load qw( load_class );
 
 # VERSION
 
@@ -24,7 +24,7 @@ sub create {
         # pull in our implementation class
         $factory->_validate_implementation_class($iclass);
 
-        eval "use $iclass";
+       load_class( $iclass );
 
         my $options = $factory->_options();
 
@@ -54,8 +54,7 @@ sub _validate_implementation_class {
 
     eval {
         # can we load the class?
-        try_load_class($iclass)    # may die if user really stuffed up _get_implementation_class()
-            or confess 'cannot load: ' . $iclass;
+        load_class($iclass);    # may die if user really stuffed up _get_implementation_class()
 
         if ($self->meta->has_implementation_roles) {
             my $roles = $self->meta->implementation_roles();
