@@ -13,7 +13,7 @@ BEGIN {
 
 	#----------------------------------------------------
 	# ImplementationB doesn't have a tweak() method
-	
+
     package My::Factory::ImplementationB;
     use Moose;
 

@@ -12,20 +12,20 @@ our $AUTHORITY = 'cpan:PENFOLD';
 # syntactic sugar for various tricks
 
 Moose::Exporter->setup_import_methods(
-    with_caller => [ 'implementation_does', 'implementation_class_via' ], 
+    with_caller => [ 'implementation_does', 'implementation_class_via' ],
     also => 'Moose',
 );
 
 sub implementation_does {
     my ($caller, @roles) = @_;
-    
+
     $caller->meta->implementation_roles(\@roles);
     return;
 }
 
 sub implementation_class_via {
     my ($caller, $code) = @_;
-    
+
     $caller->meta->implementation_class_maker($code);
     return;
 }
@@ -34,7 +34,7 @@ sub init_meta {
     my ($class, %options) = @_;
 
     Moose->init_meta( %options, metaclass => 'MooseX::AbstractFactory::Meta::Class' );
-    
+
     Moose::Util::MetaRole::apply_base_class_roles(
         for_class => $options{for_class},
         roles     => ['MooseX::AbstractFactory::Role'],
@@ -51,42 +51,42 @@ sub init_meta {
 
 	package My::Factory;
 	use MooseX::AbstractFactory;
-	
+
 	# optional role(s) that define what the implementations should implement
 
 	implementation_does qw/My::Factory::Implementation::Requires/];
 	implementation_class_via sub { 'My::Implementation::' . shift };
-	
+
 	# -------------------------------------------------------------
 	package My::Implementation::One;
 	use Moose;
-	
+
 	has connection => (is => 'ro', isa => 'Str');
 
 	sub tweak_connection {
 		...
 	}
-	
-	
-	# -------------------------------------------------------------	
+
+
+	# -------------------------------------------------------------
 	package My::Factory::Implementation::Requires;
 	use Moose::Role;
 	requires 'tweak_connection';
 
-	
+
 	# -------------------------------------------------------------
 	package main;
 	use My::Factory;
-	
+
 	my $imp = My::Factory->create('One',
 		{ connection => 'Type1' },
 	);
 
-	
+
 
 =head1 DESCRIPTION
 
-Implements an AbstractFactory as a Moose extension 
+Implements an AbstractFactory as a Moose extension
 
 
 =method create()
@@ -94,12 +94,12 @@ Implements an AbstractFactory as a Moose extension
 Returns an instance of the requested implementation.
 
     use MooseX::AbstractFactory;
-    
+
 	my $imp = My::Factory->create(
 		'Implementation',
 		{ connection => 'Type1' },
 	);
-	
+
 =mehtod implementation_does
 
 Syntactic sugar to define a list of roles each implementation must consume.
@@ -115,11 +115,11 @@ e.g.:
 and then
 
     my $imp = My::Factory->create("ClassA");
-    
+
     # $imp->isa "My::Implementation::ClassA"
-    
+
 The default behaviour is to prepend the factory class name, so in the above
-example (without the implementation_class_via) the implementation class would 
+example (without the implementation_class_via) the implementation class would
 be "My::Factory::ClassA".
 
 =head1 DIAGNOSTICS
@@ -128,7 +128,7 @@ be "My::Factory::ClassA".
 
 =item C<< No implementation provided >>
 
-If the factory class's new() method doesn't get an implementation passed, 
+If the factory class's new() method doesn't get an implementation passed,
 then it will die with the above error.
 
 =item C<< Invalid implementation class %s: %s" >>

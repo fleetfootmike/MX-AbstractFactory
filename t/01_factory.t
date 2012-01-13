@@ -21,7 +21,7 @@ use Test::Exception;
 
 my $imp;
 
-lives_ok { 
+lives_ok {
 	$imp = My::Factory->create(
     	'Implementation',
     	{ connection => 'Type1' }

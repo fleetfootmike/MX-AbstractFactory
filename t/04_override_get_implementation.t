@@ -15,14 +15,14 @@ BEGIN {
 
 	sub _get_implementation_class {
 		my ($self, $impl) = @_;
-		
+
 		return "Bar::" . $impl;
 	}
 }
 
 my $imp;
 
-lives_ok { 
+lives_ok {
 	$imp = My::Factory->create(
     	'Implementation',
     	{ connection => 'Type1' }

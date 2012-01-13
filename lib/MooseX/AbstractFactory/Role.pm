@@ -42,7 +42,7 @@ sub _get_implementation_class {
     my $class = blessed $self;
     if ($self->meta->has_class_maker) {
         return $self->meta->implementation_class_maker->($impl);
-    } 
+    }
     else {
         return $class . "::$impl";
     }
@@ -101,7 +101,7 @@ Role to implement an AbstractFactory as a Moose extension.
 Returns an instance of the requested implementation.
 
     use MooseX::AbstractFactory;
-    
+
 	my $imp = My::Factory->create(
 		'Implementation',
 		{ connection => 'Type1' },
@@ -109,7 +109,7 @@ Returns an instance of the requested implementation.
 	
 =method _validate_implementation_class()
 
-Checks that the implementation class exists (via Class::MOP->load_class() ) 
+Checks that the implementation class exists (via Class::MOP->load_class() )
 to be used, and (optionally) that it provides the methods defined in _roles().
 
 This can be overridden by a factory class definition if required: for example
@@ -122,7 +122,7 @@ This can be overridden by a factory class definition if required: for example
 
 =method _get_implementation_class()
 
-By default, the factory figures out the class of the implementation requested 
+By default, the factory figures out the class of the implementation requested
 by prepending the factory class itself, so for example
 
 	my $imp = My::Factory->new(
@@ -149,4 +149,4 @@ Please report any bugs or feature requests to C<mike@altrion.org>, or via RT.
 Thanks to Matt Trout for some of the ideas for the code in
 _validate_implementation_class.
 
-=cut 
+=cut
