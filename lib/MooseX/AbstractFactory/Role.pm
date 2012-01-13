@@ -5,6 +5,7 @@ use Moose::Role;
 use Class::Load qw( try_load_class );
 
 # VERSION
+
 our $AUTHORITY = 'cpan:PENFOLD';
 
 has _options        => (is => 'ro', isa => 'HashRef');
