@@ -54,7 +54,7 @@ sub init_meta {
 
 	# optional role(s) that define what the implementations should implement
 
-	implementation_does qw/My::Factory::Implementation::Requires/];
+	implementation_does [ qw( My::Factory::Implementation::Requires ) ];
 	implementation_class_via sub { 'My::Implementation::' . shift };
 
 	# -------------------------------------------------------------
