@@ -3,6 +3,7 @@ package MooseX::AbstractFactory::Role;
 use Moose::Autobox;
 use Moose::Role;
 use Class::Load qw( load_class );
+use Try::Tiny;
 
 # VERSION
 
@@ -52,7 +53,7 @@ sub _get_implementation_class {
 sub _validate_implementation_class {
     my ($self, $iclass) = @_;
 
-    eval {
+    try {
         # can we load the class?
         load_class($iclass);    # may die if user really stuffed up _get_implementation_class()
 
@@ -78,8 +79,10 @@ sub _validate_implementation_class {
                 Moose::Meta::Role->combine($roles->map(sub { $_->meta; } ))->apply($anon);
             }
         }
+    }
+    catch {
+        confess "Invalid implementation class $iclass: $_";
     };
-    confess "Invalid implementation class $iclass: $@" if $@;
 
     return;
 }
