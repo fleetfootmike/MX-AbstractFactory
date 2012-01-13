@@ -124,6 +124,11 @@ The default behaviour is to prepend the factory class name, so in the above
 example (without the implementation_class_via) the implementation class would
 be "My::Factory::ClassA".
 
+=method init_meta
+
+Overrides L<Moose>'s C<init_meta> and applies
+L<MooseX::AbstractFactory::Role>.
+
 =head1 DIAGNOSTICS
 
 =over
