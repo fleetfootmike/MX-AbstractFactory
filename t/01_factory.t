@@ -1,15 +1,19 @@
-use Test::More tests => 6;
+use strict;
+use warnings;
+use Test::More;
 use Test::Moose;
 use Test::Exception;
 
-BEGIN {
+{
 	package My::Factory::Implementation;
 	use Moose;
 
 	has connection => (is => 'ro', isa => 'Str');
 
 	sub tweak { 1; };
+}
 
+{
 	package My::Factory;
 	use MooseX::AbstractFactory;
 	use Moose;
@@ -33,3 +37,5 @@ is($imp->connection(), 'Type1', 'connection attr set by constructor');
 dies_ok {
 	$imp->fudge();
 } "fudge dies, not implemented on implementor";
+
+done_testing;
