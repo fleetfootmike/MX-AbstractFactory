@@ -1,4 +1,12 @@
-Revision history for MooseX-AbstractFactory
+Revision history for {{ $dist->name }}
+
+{{$NEXT}}
+
+0.003003  2012-01-13
+       - use Class::Load instead of Class::MOP->load_class (fix for Moose
+         2.04)
+       - use Try::Tiny instead of eval
+       - cleanup for conversiont to Dist::Zilla
 
 0.3    Thu Oct 16 09:18:13 2008
        - Refactor to use sugar and metaclass.
