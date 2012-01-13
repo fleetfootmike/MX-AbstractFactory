@@ -105,11 +105,11 @@ Returns an instance of the requested implementation.
 
     use MooseX::AbstractFactory;
 
-	my $imp = My::Factory->create(
-		'Implementation',
-		{ connection => 'Type1' },
-	);
-	
+    my $imp = My::Factory->create(
+        'Implementation',
+        { connection => 'Type1' },
+    );
+
 =method _validate_implementation_class()
 
 Checks that the implementation class exists (via Class::MOP->load_class() )
@@ -117,10 +117,10 @@ to be used, and (optionally) that it provides the methods defined in _roles().
 
 This can be overridden by a factory class definition if required: for example
 
-	sub _validate_implementation_class {
-		my $self = shift;
-		return 1; # all implementation classes are valid :)
-	}
+    sub _validate_implementation_class {
+        my $self = shift;
+        return 1; # all implementation classes are valid :)
+    }
 
 
 =method _get_implementation_class()
@@ -128,18 +128,18 @@ This can be overridden by a factory class definition if required: for example
 By default, the factory figures out the class of the implementation requested
 by prepending the factory class itself, so for example
 
-	my $imp = My::Factory->new(
-		implementation => 'Implementation')
-		
+    my $imp = My::Factory->new(
+        implementation => 'Implementation')
+
 will return an object of class My::Factory::Implementation.
 
 This can be overridden in the factory class by redefining the
 _get_implementation_class() method, for example:
-	
-	sub _get_implementation_class {
-		my ($self, $class) = @_;
-		return "My::ImplementationClasses::$class";
-	}
+
+    sub _get_implementation_class {
+        my ($self, $class) = @_;
+        return "My::ImplementationClasses::$class";
+    }
 
 =head1 BUGS AND LIMITATIONS
 
