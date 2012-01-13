@@ -1,7 +1,9 @@
 package MooseX::AbstractFactory::Role;
+use strict;
+use warnings;
+use Moose::Role;
 
 use Moose::Autobox;
-use Moose::Role;
 use Class::Load qw( load_class );
 use Try::Tiny;
 

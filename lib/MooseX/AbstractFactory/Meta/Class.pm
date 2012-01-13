@@ -1,4 +1,6 @@
 package MooseX::AbstractFactory::Meta::Class;
+use strict;
+use warnings;
 use Moose;
 extends 'Moose::Meta::Class';
 

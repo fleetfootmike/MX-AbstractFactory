@@ -1,6 +1,8 @@
 package MooseX::AbstractFactory;
-
+use strict;
+use warnings;
 use Moose ();
+
 use Moose::Exporter;
 use MooseX::AbstractFactory::Role;
 use MooseX::AbstractFactory::Meta::Class;
