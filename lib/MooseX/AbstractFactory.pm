@@ -100,7 +100,7 @@ Returns an instance of the requested implementation.
 		{ connection => 'Type1' },
 	);
 
-=mehtod implementation_does
+=method implementation_does
 
 Syntactic sugar to define a list of roles each implementation must consume.
 
