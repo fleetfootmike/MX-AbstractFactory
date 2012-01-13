@@ -31,7 +31,7 @@ sub implementation_class_via {
 }
 
 sub init_meta {
-    my ($class, %options) = @_;
+    my ( $self, %options ) = @_;
 
     Moose->init_meta( %options, metaclass => 'MooseX::AbstractFactory::Meta::Class' );
 
