@@ -1,5 +1,0 @@
-severity = 2
-exclude = BuiltinFunctions::ProhibitStringyEval Variables::ProhibitPunctuationVars TestingAndDebugging::RequireUseStrict TestingAndDebugging::RequireUseWarnings ErrorHandling::RequireCheckingReturnValueOfEval Miscellanea::RequireRcsKeywords
-
-[Documentation::RequirePodSections]
-lib_sections    = NAME | SYNOPSIS | DESCRIPTION | SUBROUTINES/METHODS | BUGS AND LIMITATIONS | AUTHOR
