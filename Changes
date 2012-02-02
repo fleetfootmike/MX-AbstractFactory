@@ -2,6 +2,9 @@ Revision history for {{ $dist->name }}
 
 {{$NEXT}}
 
+0.004000  2012-02-01
+	- Allow passing of any kind of params to the implementation
+
 0.003003  2012-01-13
 	- use Class::Load instead of Class::MOP->load_class (fix for Moose
 	  2.04)
