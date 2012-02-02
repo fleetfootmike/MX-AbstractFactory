@@ -5,7 +5,7 @@ use Test::Exception;
 {
 	package My::Connection;
 	use Moose;
-	
+
 	has type => (
 		is => 'ro',
 		isa => 'Str',
