@@ -15,23 +15,30 @@ has _options		=> (is => 'ro', isa => 'ArrayRef[Any]');
 has _implementation => (is => 'ro', isa => 'Str');
 
 sub create {
-	my ($class, $impl, @args) = @_;
-
-	my $factory = $class->new(_implementation => $impl, _options => [ @args ]);
-
-	my $i = $factory->_implementation();
+	my ($class, $impl, @impl_args) = @_;
 
 	if (defined $impl) {
-		my $iclass = $factory->_get_implementation_class($i);
+		my $factory
+			= $class->new({
+				_implementation => $impl,
+				_options => [ @impl_args ]
+			});
+
+		my $iclass
+			= $factory->_get_implementation_class(
+				$factory->_implementation()
+			);
 
 		# pull in our implementation class
 		$factory->_validate_implementation_class($iclass);
 
-	   load_class( $iclass );
+		my $iconstructor = $iclass->meta->constructor_name;
 
-		my $options = $factory->_options();
+		my $implementation
+			= $iclass->$iconstructor(
+				@{ $factory->_options }
+			);
 
-		my $implementation = $iclass->new( @{ $options });
 		# TODO - should we sneak a factory attr onto the metaclass?
 		return $implementation;
 	}
