@@ -11,82 +11,89 @@ use Try::Tiny;
 
 our $AUTHORITY = 'cpan:PENFOLD';
 
-has _options        => (is => 'ro', isa => 'ArrayRef[Any]');
+has _options		=> (is => 'ro', isa => 'ArrayRef[Any]');
 has _implementation => (is => 'ro', isa => 'Str');
 
 sub create {
-    my ($class, $impl, @args) = @_;
+	my ($class, $impl, @impl_args) = @_;
 
-    my $factory = $class->new(_implementation => $impl, _options => [ @args ]);
+	if (defined $impl) {
+		my $factory
+			= $class->new({
+				_implementation => $impl,
+				_options => [ @impl_args ]
+			});
 
-    my $i = $factory->_implementation();
+		my $iclass
+			= $factory->_get_implementation_class(
+				$factory->_implementation()
+			);
 
-    if (defined $impl) {
-        my $iclass = $factory->_get_implementation_class($i);
+		# pull in our implementation class
+		$factory->_validate_implementation_class($iclass);
 
-        # pull in our implementation class
-        $factory->_validate_implementation_class($iclass);
+		my $iconstructor = $iclass->meta->constructor_name;
 
-       load_class( $iclass );
+		my $implementation
+			= $iclass->$iconstructor(
+				@{ $factory->_options }
+			);
 
-        my $options = $factory->_options();
-
-        my $implementation = $iclass->new( @{ $options });
-        # TODO - should we sneak a factory attr onto the metaclass?
-        return $implementation;
-    }
-    else {
-        confess('No implementation provided');
-    }
+		# TODO - should we sneak a factory attr onto the metaclass?
+		return $implementation;
+	}
+	else {
+		confess('No implementation provided');
+	}
 }
 
 sub _get_implementation_class {
-    my ($self, $impl) = @_;
+	my ($self, $impl) = @_;
 
-    my $class = blessed $self;
-    if ($self->meta->has_class_maker) {
-        return $self->meta->implementation_class_maker->($impl);
-    }
-    else {
-        return $class . "::$impl";
-    }
+	my $class = blessed $self;
+	if ($self->meta->has_class_maker) {
+		return $self->meta->implementation_class_maker->($impl);
+	}
+	else {
+		return $class . "::$impl";
+	}
 }
 
 sub _validate_implementation_class {
-    my ($self, $iclass) = @_;
+	my ($self, $iclass) = @_;
 
-    try {
-        # can we load the class?
-        load_class($iclass);    # may die if user really stuffed up _get_implementation_class()
+	try {
+		# can we load the class?
+		load_class($iclass);	# may die if user really stuffed up _get_implementation_class()
 
-        if ($self->meta->has_implementation_roles) {
-            my $roles = $self->meta->implementation_roles();
+		if ($self->meta->has_implementation_roles) {
+			my $roles = $self->meta->implementation_roles();
 
-            # create an anon class that's a subclass of it
-            my $anon = Moose::Meta::Class->create_anon_class();
+			# create an anon class that's a subclass of it
+			my $anon = Moose::Meta::Class->create_anon_class();
 
-            # make it a subclass of the implementation
-            $anon->superclasses($iclass);
+			# make it a subclass of the implementation
+			$anon->superclasses($iclass);
 
-            # Lifted from MooseX::Recipe::Builder->_build_anon_meta()
+			# Lifted from MooseX::Recipe::Builder->_build_anon_meta()
 
-            # load our role classes
-            $roles->map( sub { Class::MOP::load_class($_); } );
+			# load our role classes
+			$roles->map( sub { Class::MOP::load_class($_); } );
 
-            # apply roles to anon class
-            if (scalar @{$roles} == 1) {
-                $roles->[0]->meta->apply($anon);
-            }
-            else {
-                Moose::Meta::Role->combine($roles->map(sub { $_->meta; } ))->apply($anon);
-            }
-        }
-    }
-    catch {
-        confess "Invalid implementation class $iclass: $_";
-    };
+			# apply roles to anon class
+			if (scalar @{$roles} == 1) {
+				$roles->[0]->meta->apply($anon);
+			}
+			else {
+				Moose::Meta::Role->combine($roles->map(sub { $_->meta; } ))->apply($anon);
+			}
+		}
+	}
+	catch {
+		confess "Invalid implementation class $iclass: $_";
+	};
 
-    return;
+	return;
 }
 
 1;
@@ -105,12 +112,12 @@ Role to implement an AbstractFactory as a Moose extension.
 
 Returns an instance of the requested implementation.
 
-    use MooseX::AbstractFactory;
+	use MooseX::AbstractFactory;
 
-    my $imp = My::Factory->create(
-        'Implementation',
-        { connection => 'Type1' },
-    );
+	my $imp = My::Factory->create(
+		'Implementation',
+		{ connection => 'Type1' },
+	);
 
 =method _validate_implementation_class()
 
@@ -119,10 +126,10 @@ to be used, and (optionally) that it provides the methods defined in _roles().
 
 This can be overridden by a factory class definition if required: for example
 
-    sub _validate_implementation_class {
-        my $self = shift;
-        return 1; # all implementation classes are valid :)
-    }
+	sub _validate_implementation_class {
+		my $self = shift;
+		return 1; # all implementation classes are valid :)
+	}
 
 
 =method _get_implementation_class()
@@ -130,18 +137,18 @@ This can be overridden by a factory class definition if required: for example
 By default, the factory figures out the class of the implementation requested
 by prepending the factory class itself, so for example
 
-    my $imp = My::Factory->new(
-        implementation => 'Implementation')
+	my $imp = My::Factory->new(
+		implementation => 'Implementation')
 
 will return an object of class My::Factory::Implementation.
 
 This can be overridden in the factory class by redefining the
 _get_implementation_class() method, for example:
 
-    sub _get_implementation_class {
-        my ($self, $class) = @_;
-        return "My::ImplementationClasses::$class";
-    }
+	sub _get_implementation_class {
+		my ($self, $class) = @_;
+		return "My::ImplementationClasses::$class";
+	}
 
 =head1 BUGS AND LIMITATIONS
 
