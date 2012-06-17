@@ -2,6 +2,9 @@ Revision history for {{ $dist->name }}
 
 {{$NEXT}}
 
+0.004001  2012-06-16
+	- support calling implementation_does with an arrayref as documented
+
 0.004000  2012-02-01
 	- Allow passing of any kind of params to the implementation
 
