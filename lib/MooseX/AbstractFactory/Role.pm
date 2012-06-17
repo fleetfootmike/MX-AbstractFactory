@@ -11,7 +11,7 @@ use Try::Tiny;
 
 our $AUTHORITY = 'cpan:PENFOLD';
 
-has _options		=> (is => 'ro', isa => 'ArrayRef[Any]');
+has _options        => (is => 'ro', isa => 'ArrayRef[Any]');
 has _implementation => (is => 'ro', isa => 'Str');
 
 sub create {
@@ -64,7 +64,7 @@ sub _validate_implementation_class {
 
 	try {
 		# can we load the class?
-		load_class($iclass);	# may die if user really stuffed up _get_implementation_class()
+		load_class($iclass); # may die if user really stuffed up _get_implementation_class()
 
 		if ($self->meta->has_implementation_roles) {
 			my $roles = $self->meta->implementation_roles();
