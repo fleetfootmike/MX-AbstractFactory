@@ -19,7 +19,9 @@ Moose::Exporter->setup_import_methods(
 );
 
 sub implementation_does {
-    my ($caller, @roles) = @_;
+    my ($caller, @args) = @_;
+
+    my @roles = ref $args[0] eq 'ARRAY' ? @{ $args[0] } : @args;
 
     $caller->meta->implementation_roles(\@roles);
     return;
