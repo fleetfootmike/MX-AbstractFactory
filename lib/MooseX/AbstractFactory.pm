@@ -47,7 +47,7 @@ sub init_meta {
     return $options{for_class}->meta();
 }
 
-1;    # Magic true value required at end of module
+1;
 
 #ABSTRACT: AbstractFactory behaviour as a Moose extension
 
