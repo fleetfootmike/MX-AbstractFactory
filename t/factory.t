@@ -1,7 +1,7 @@
 use strict;
 use warnings;
 use Test::More;
-use Test::Exception;
+use Test::Fatal;
 
 {
 	package My::Factory::Implementation;
@@ -20,21 +20,21 @@ use Test::Exception;
 
 my $imp;
 
-lives_ok {
-	$imp = My::Factory->create(
-    	'Implementation',
-    	{ connection => 'Type1' }
-	);
-} "Factory->new() doesn't die";
+my $e0
+	= exception {
+		$imp = My::Factory
+		->create( 'Implementation', { connection => 'Type1' });
+	};
 
+is $e0, undef, "Factory->new() doesn't die";
 isa_ok($imp, "My::Factory::Implementation");
 
 can_ok($imp, qw/tweak/);
 is($imp->tweak(),1,"tweak returns 1");
 is($imp->connection(), 'Type1', 'connection attr set by constructor');
 
-dies_ok {
-	$imp->fudge();
-} "fudge dies, not implemented on implementor";
+my $e1 = exception { $imp->fudge(); };
+like $e1, qr/^Can't locate object method/,
+	"fudge dies, not implemented on implementor";
 
 done_testing;
