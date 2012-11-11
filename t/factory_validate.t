@@ -1,5 +1,5 @@
-use Test::More tests => 2;
-use Test::Exception;
+use Test::More;
+use Test::Fatal;
 
 BEGIN {
 	#----------------------------------------------------
@@ -34,18 +34,18 @@ BEGIN {
     requires 'tweak';
 }
 
-my $imp;
+my $e0
+    = exception {
+        My::Factory->create( ImplementationA => { connection => 'Type1'});
+    };
 
-lives_ok {
-    $imp = My::Factory->create('ImplementationA',
-                               {connection => 'Type1'});
-}
-"Factory->new() doesn't die with ImplementationA";
+my $e1
+    = exception {
+        My::Factory->create( ImplementationB => {} );
+    };
 
-dies_ok {
-    $imp = My::Factory->create(
-                               'ImplementationB',
-                               {},
-                              );
-}
-"Factory->new() dies with implementationB";
+is   $e0, undef, "Factory->new() doesn't die with ImplementationA";
+like $e1, qr/^Invalid implementation class My::Factory::ImplementationB/,
+     'Factory->new() dies with implementationB';
+
+done_testing;
