@@ -78,7 +78,7 @@ sub _validate_implementation_class {
 			# Lifted from MooseX::Recipe::Builder->_build_anon_meta()
 
 			# load our role classes
-			$roles->map( sub { Class::MOP::load_class($_); } );
+			$roles->map( sub { load_class($_); } );
 
 			# apply roles to anon class
 			if (scalar @{$roles} == 1) {
@@ -121,7 +121,7 @@ Returns an instance of the requested implementation.
 
 =method _validate_implementation_class()
 
-Checks that the implementation class exists (via Class::MOP->load_class() )
+Checks that the implementation class exists (via Class::Load::load_class() )
 to be used, and (optionally) that it provides the methods defined in _roles().
 
 This can be overridden by a factory class definition if required: for example
