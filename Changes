@@ -2,6 +2,9 @@ Revision history for {{ $dist->name }}
 
 {{$NEXT}}
 
+0.004002  2014-01-24
+	- More Class::MOP::load_class -> Class::Load fixes ( zoffix )
+
 0.004001  2012-06-16
 	- support calling implementation_does with an arrayref as documented
 
