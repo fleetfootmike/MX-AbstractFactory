@@ -4,7 +4,7 @@ use warnings;
 use Moose::Role;
 
 use Moose::Autobox;
-use Class::Load qw( load_class );
+use Module::Runtime qw( use_package_optimistically );
 use Try::Tiny;
 
 # VERSION
@@ -64,7 +64,7 @@ sub _validate_implementation_class {
 
 	try {
 		# can we load the class?
-		load_class($iclass); # may die if user really stuffed up _get_implementation_class()
+		use_package_optimistically($iclass); # may die if user really stuffed up _get_implementation_class()
 
 		if ($self->meta->has_implementation_roles) {
 			my $roles = $self->meta->implementation_roles();
@@ -78,7 +78,7 @@ sub _validate_implementation_class {
 			# Lifted from MooseX::Recipe::Builder->_build_anon_meta()
 
 			# load our role classes
-			$roles->map( sub { load_class($_); } );
+			$roles->map( sub { use_package_optimistically($_); } );
 
 			# apply roles to anon class
 			if (scalar @{$roles} == 1) {
@@ -121,8 +121,7 @@ Returns an instance of the requested implementation.
 
 =method _validate_implementation_class()
 
-Checks that the implementation class exists (via Class::Load::load_class() )
-to be used, and (optionally) that it provides the methods defined in _roles().
+Optional: it provides the methods defined in _roles().
 
 This can be overridden by a factory class definition if required: for example
 
