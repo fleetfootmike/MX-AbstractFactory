@@ -2,6 +2,9 @@ Revision history for {{ $dist->name }}
 
 {{$NEXT}}
 
+0.004003  2014-02-23
+	- remove Class::Load entirely for Module::Runtime
+
 0.004002  2014-01-24
 	- More Class::MOP::load_class -> Class::Load fixes ( zoffix )
 
