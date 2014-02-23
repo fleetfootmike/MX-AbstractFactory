@@ -1,6 +1,6 @@
-use Test::More tests => 2;
+use Test::More;
 use Test::Moose;
-use Test::Exception;
+use Test::Fatal;
 
 BEGIN {
 	package Bar::Implementation;
@@ -22,11 +22,15 @@ BEGIN {
 
 my $imp;
 
-lives_ok {
+my $e0 = exception {
 	$imp = My::Factory->create(
-    	'Implementation',
-    	{ connection => 'Type1' }
+		'Implementation',
+		{ connection => 'Type1' }
 	);
-} "Factory->new() doesn't die";
+};
+
+is $e0, undef, "Factory->new() doesn't die";
 
 isa_ok($imp, "Bar::Implementation");
+
+done_testing;
