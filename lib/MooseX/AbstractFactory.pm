@@ -145,15 +145,3 @@ then it will die with the above error.
 The implementation passed to the factory class mapped to a class that doesn't exist.
 
 =back
-
-=head1 BUGS AND LIMITATIONS
-
-No bugs have been reported. Yet.
-
-Please report any bugs or feature requests to C<mike@altrion.org>, or via RT.
-
-=head1 ACKNOWLEDGMENTS
-
-Thanks to Dave Rolsky for the suggestions for syntactic sugar.
-
-=cut
