@@ -3,7 +3,6 @@ use strict;
 use warnings;
 use Moose::Role;
 
-use Moose::Autobox;
 use Module::Runtime qw( use_package_optimistically );
 use Try::Tiny;
 
@@ -78,14 +77,14 @@ sub _validate_implementation_class {
 			# Lifted from MooseX::Recipe::Builder->_build_anon_meta()
 
 			# load our role classes
-			$roles->map( sub { use_package_optimistically($_); } );
+			use_package_optimistically($_) for @$roles;
 
 			# apply roles to anon class
 			if (scalar @{$roles} == 1) {
 				$roles->[0]->meta->apply($anon);
 			}
 			else {
-				Moose::Meta::Role->combine($roles->map(sub { $_->meta; } ))->apply($anon);
+				Moose::Meta::Role->combine(map { $_->meta } @$roles)->apply($anon);
 			}
 		}
 	}
